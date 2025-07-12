@@ -8,6 +8,7 @@ export default {
             option
                 .setName("message")
                 .setDescription("The message to echo back.")
+                .setRequired(true)
         ),
     async execute(interaction) {
         const message = interaction.options.getString("message");
