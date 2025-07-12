@@ -20,11 +20,12 @@ const connectToDatabase = async () => {
             charset: dbConfig.charset,
         });
 
+        createBirthdayTable();
+
         console.log("Connected to MySQL database");
         return connection;
     } catch (error) {
         console.error("Error connecting to database:", error);
-        throw error;
     }
 };
 
@@ -37,6 +38,21 @@ const closeConnection = async () => {
 };
 
 // Helper function to execute queries
+const createBirthdayTable = async () => {
+    const query = `
+        CREATE TABLE IF NOT EXISTS birthdays (
+            user_id VARCHAR(255) NOT NULL,
+            birthday DATE NOT NULL,
+            birth_time TIME,
+            PRIMARY KEY (user_id)
+        );
+    `;
+
+    await executeQuery(query);
+
+    console.log("Birthday table verified.");
+};
+
 const executeQuery = async (query, params = []) => {
     const conn = await connectToDatabase();
     try {
@@ -44,7 +60,6 @@ const executeQuery = async (query, params = []) => {
         return rows;
     } catch (error) {
         console.error("Query execution error:", error);
-        throw error;
     }
 };
 
