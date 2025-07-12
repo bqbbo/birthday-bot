@@ -18,7 +18,6 @@ const connectToDatabase = async () => {
             password: dbConfig.password,
             database: dbConfig.database,
             charset: dbConfig.charset,
-            timezone: dbConfig.timezone,
         });
 
         console.log("Connected to MySQL database");
@@ -37,6 +36,7 @@ const closeConnection = async () => {
     }
 };
 
+// Helper function to execute queries
 const executeQuery = async (query, params = []) => {
     const conn = await connectToDatabase();
     try {
