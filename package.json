@@ -1,0 +1,31 @@
+{
+    "name": "birthday-bot",
+    "version": "1.0.0",
+    "description": "Discord bot for announcing birthdays.",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index.js",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bqbbo/birthday-bot.git"
+    },
+    "author": "bqbbo",
+    "license": "GPL-2.0-only",
+    "bugs": {
+        "url": "https://github.com/bqbbo/birthday-bot/issues"
+    },
+    "homepage": "https://github.com/bqbbo/birthday-bot#readme",
+    "devDependencies": {
+        "@eslint/js": "^9.31.0",
+        "eslint": "^9.31.0",
+        "globals": "^16.3.0"
+    },
+    "dependencies": {
+        "discord.js": "^14.21.0",
+        "dotenv": "^17.2.0",
+        "nodemon": "^3.1.10"
+    }
+}
