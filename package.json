@@ -6,6 +6,8 @@
     "type": "module",
     "scripts": {
         "start": "nodemon index.js",
+        "register:guild": "node tools/guildRegisterCommand.js",
+        "register:global": "node tools/globalRegisterCommand.js",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix"
     },

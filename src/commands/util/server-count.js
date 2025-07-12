@@ -5,8 +5,8 @@ export default {
         .setName("server-count")
         .setDescription("Returns the number of servers the bot is in."),
     async execute(interaction) {
-        await interaction.reply(
-            `The bot is in ${interaction.client.guilds.cache.size} servers.`
-        );
+        const count = interaction.client.guilds.cache.size;
+        const serverWord = count === 1 ? "server" : "servers";
+        await interaction.reply(`The bot is in ${count} ${serverWord}.`);
     },
 };
