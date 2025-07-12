@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Discord bot for announcing birthdays.",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "start": "nodemon index.js",
         "lint": "eslint .",

@@ -2,7 +2,7 @@ import globals from "globals";
 import js from "@eslint/js";
 
 export default [
-    js.configs.all,
+    js.configs.recommended,
     {
         languageOptions: {
             ecmaVersion: 2022,
