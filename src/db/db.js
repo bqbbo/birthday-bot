@@ -20,7 +20,7 @@ const connectToDatabase = async () => {
             charset: dbConfig.charset,
         });
 
-        createBirthdayTable();
+        await createBirthdayTable();
 
         console.log("Connected to MySQL database");
         return connection;
@@ -43,7 +43,6 @@ const createBirthdayTable = async () => {
         CREATE TABLE IF NOT EXISTS birthdays (
             user_id VARCHAR(255) NOT NULL,
             birthday DATE NOT NULL,
-            birth_time TIME,
             PRIMARY KEY (user_id)
         );
     `;

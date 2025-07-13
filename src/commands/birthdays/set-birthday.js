@@ -1,47 +1,57 @@
+import { setBirthday } from "../../queries.js";
 import { SlashCommandBuilder } from "discord.js";
 
 const DAYS_IN_MONTHS = {
-    "01": 31,
-    "02": 29,
-    "03": 31,
-    "04": 30,
-    "05": 31,
-    "06": 30,
-    "07": 31,
-    "08": 31,
-    "09": 30,
+    1: 31,
+    2: 29,
+    3: 31,
+    4: 30,
+    5: 31,
+    6: 30,
+    7: 31,
+    8: 31,
+    9: 30,
     10: 31,
     11: 30,
     12: 31,
 };
 
 const validateDay = (day, month) => {
-    if (day < 1 || day > DAYS_IN_MONTHS[month]) {
-        throw new Error("Invalid day for the given month.");
+    if (day < 1) {
+        throw new Error("Day must be greater than 0.");
+    }
+
+    if (day > DAYS_IN_MONTHS[month]) {
+        throw new Error(
+            `Day must be less than or equal to ${DAYS_IN_MONTHS[month]} for the month ${month}.`
+        );
     }
 };
 
 const validateYear = (year) => {
     if (year && (year < 1900 || year > new Date().getFullYear())) {
-        throw new Error("Year must be between 1900 and the current year.");
+        throw new Error(
+            "Year must be between 1900 and the current year. Shorthands are not supported."
+        );
     }
 };
 
 const yieldSQLBirthdayString = (day, month, year) => {
     const formattedDay = day.toString().padStart(2, "0");
+    const formattedMonth = month.toString().padStart(2, "0");
 
     if (year) {
-        return `${year}-${month}-${formattedDay}`;
+        return `${year}-${formattedMonth}-${formattedDay}`;
     }
 
-    return `1000-${month}-${formattedDay}`;
+    return `1000-${formattedMonth}-${formattedDay}`;
 };
 
 export default {
     data: new SlashCommandBuilder()
         .setName("set-birthday")
         .setDescription("Sets your birthday.")
-        .addStringOption((option) =>
+        .addIntegerOption((option) =>
             option
                 .setName("month")
                 .setDescription("The month of your birthday.")
@@ -49,51 +59,51 @@ export default {
                 .addChoices(
                     {
                         name: "January",
-                        value: "01",
+                        value: 1,
                     },
                     {
                         name: "February",
-                        value: "02",
+                        value: 2,
                     },
                     {
                         name: "March",
-                        value: "03",
+                        value: 3,
                     },
                     {
                         name: "April",
-                        value: "04",
+                        value: 4,
                     },
                     {
                         name: "May",
-                        value: "05",
+                        value: 5,
                     },
                     {
                         name: "June",
-                        value: "06",
+                        value: 6,
                     },
                     {
                         name: "July",
-                        value: "07",
+                        value: 7,
                     },
                     {
                         name: "August",
-                        value: "08",
+                        value: 8,
                     },
                     {
                         name: "September",
-                        value: "09",
+                        value: 9,
                     },
                     {
                         name: "October",
-                        value: "10",
+                        value: 10,
                     },
                     {
                         name: "November",
-                        value: "11",
+                        value: 11,
                     },
                     {
                         name: "December",
-                        value: "12",
+                        value: 12,
                     }
                 )
         )
@@ -107,38 +117,41 @@ export default {
             option.setName("year").setDescription("The year of your birthday.")
         ),
     async execute(interaction) {
+        const day = interaction.options.getInteger("day");
+        const month = interaction.options.getInteger("month");
+        const year = interaction.options.getInteger("year");
+
         try {
-            validateDay(
-                interaction.options.getString("day"),
-                interaction.options.getString("month")
-            );
-        } catch {
+            validateDay(day, month);
+        } catch (error) {
             await interaction.reply({
-                content: "Invalid date provided. Please check your input.",
+                content: error.message,
                 ephemeral: true,
             });
             return;
         }
 
-        if (interaction.options.getInteger("year")) {
+        if (year) {
             try {
-                validateYear(interaction.options.getInteger("year"));
-            } catch {
+                validateYear(year);
+            } catch (error) {
                 await interaction.reply({
-                    content: `Invalid year provided. Please check your input.
-                        Only formats such as 1990 or 2023 are allowed.`,
+                    content: error.message,
                     ephemeral: true,
                 });
                 return;
             }
         }
 
-        console.log(
-            yieldSQLBirthdayString(
-                interaction.options.getInteger("day"),
-                interaction.options.getString("month"),
-                interaction.options.getInteger("year")
-            )
+        await setBirthday(
+            interaction.user.id,
+            yieldSQLBirthdayString(day, month, year)
+        );
+
+        interaction.reply(
+            `Your birthday has been registered for ${month}-${day}${
+                year ? `-${year}` : ""
+            }.`
         );
     },
 };
