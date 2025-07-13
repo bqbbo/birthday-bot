@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import getDBToken from "./getDBToken.js";
+import { createBirthdayTable } from "../queries.js";
 
 let connection = null;
 
@@ -38,19 +39,6 @@ const closeConnection = async () => {
 };
 
 // Helper function to execute queries
-const createBirthdayTable = async () => {
-    const query = `
-        CREATE TABLE IF NOT EXISTS birthdays (
-            user_id VARCHAR(255) NOT NULL,
-            birthday DATE NOT NULL,
-            PRIMARY KEY (user_id)
-        );
-    `;
-
-    await executeQuery(query);
-
-    console.log("Birthday table verified.");
-};
 
 const executeQuery = async (query, params = []) => {
     const conn = await connectToDatabase();
