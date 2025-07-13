@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
 import getDBToken from "./getDBToken.js";
-import { createBirthdayTable } from "../queries.js";
+import { createGuildSettingsTable, createBirthdayTable } from "../queries.js";
 
 let connection = null;
 
@@ -21,6 +21,7 @@ const connectToDatabase = async () => {
             charset: dbConfig.charset,
         });
 
+        await createGuildSettingsTable();
         await createBirthdayTable();
 
         console.log("Connected to MySQL database");
