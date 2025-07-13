@@ -1,3 +1,4 @@
+import defaultSettings from "./defaultSettings.js";
 import { executeQuery } from "./db/db.js";
 
 const createGuildSettingsTable = async () => {
@@ -16,15 +17,6 @@ const createGuildSettingsTable = async () => {
 };
 
 const initializeGuildSettings = async (guildId) => {
-    // These are default settings, do not change them unless you know what you're doing. They can be configured via the /settings command.
-    const defaultSettings = {
-        channel: null,
-        ping_role_id: null,
-        birthday_message: "Happy birthday, {users}! 🎉",
-        announcement_time: "09:00",
-        timezone: "UTC",
-    };
-
     const query = `
         INSERT INTO guild_settings (guild_id, setting_name, setting_value)
         VALUES (?, ?, ?)
@@ -48,7 +40,6 @@ const getGuildSetting = async (guildId, settingName) => {
         return result.length > 0 ? JSON.parse(result[0].setting_value) : null;
     } catch (error) {
         console.error("Error fetching guild setting:", error);
-        return null;
     }
 };
 
@@ -64,7 +55,21 @@ const getAllGuildSettings = async (guildId) => {
         }, {});
     } catch (error) {
         console.error("Error fetching settings:", error);
-        return {};
+    }
+};
+
+const setGuildSetting = async (guildId, settingName, settingValue) => {
+    const query = `
+        INSERT INTO guild_settings (guild_id, setting_name, setting_value)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)
+    `;
+    const params = [guildId, settingName, settingValue];
+
+    try {
+        await executeQuery(query, params);
+    } catch (error) {
+        console.error("Error setting guild setting:", error);
     }
 };
 
@@ -114,6 +119,7 @@ export {
     initializeGuildSettings,
     getGuildSetting,
     getAllGuildSettings,
+    setGuildSetting,
     createBirthdayTable,
     setBirthday,
     getBirthday,
