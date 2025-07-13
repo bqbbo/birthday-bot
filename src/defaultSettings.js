@@ -9,4 +9,6 @@ const defaultSettings = {
     timezone: "UTC",
 };
 
-export default defaultSettings;
+const validSettings = Object.keys(defaultSettings);
+
+export { defaultSettings, validSettings };

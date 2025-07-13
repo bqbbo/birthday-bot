@@ -1,4 +1,4 @@
-import defaultSettings from "./defaultSettings.js";
+import { defaultSettings } from "./defaultSettings.js";
 import { executeQuery } from "./db/db.js";
 
 const createGuildSettingsTable = async () => {
@@ -12,21 +12,23 @@ const createGuildSettingsTable = async () => {
     `;
 
     await executeQuery(query);
-
     console.log("Guild settings table verified.");
 };
 
 const initializeGuildSettings = async (guildId) => {
-    const query = `
-        INSERT INTO guild_settings (guild_id, setting_name, setting_value)
-        VALUES (?, ?, ?)
-    `;
-    const params = [guildId, "default", JSON.stringify(defaultSettings)];
+    // Initialize each setting individually, not as a JSON blob
+    for (const [settingName, settingValue] of Object.entries(defaultSettings)) {
+        const query = `
+            INSERT IGNORE INTO guild_settings (guild_id, setting_name, setting_value)
+            VALUES (?, ?, ?)
+        `;
+        const params = [guildId, settingName, settingValue];
 
-    try {
-        await executeQuery(query, params);
-    } catch (error) {
-        console.error("Error initializing guild settings:", error);
+        try {
+            await executeQuery(query, params);
+        } catch (error) {
+            console.error(`Error initializing setting ${settingName}:`, error);
+        }
     }
 };
 
@@ -37,24 +39,29 @@ const getGuildSetting = async (guildId, settingName) => {
 
     try {
         const result = await executeQuery(query, params);
-        return result.length > 0 ? JSON.parse(result[0].setting_value) : null;
+        // Return the raw value, don't try to parse as JSON
+        return result.length > 0 ? result[0].setting_value : null;
     } catch (error) {
         console.error("Error fetching guild setting:", error);
+        throw error;
     }
 };
 
 const getAllGuildSettings = async (guildId) => {
-    const query = "SELECT * FROM guild_settings WHERE guild_id = ?";
+    const query =
+        "SELECT setting_name, setting_value FROM guild_settings WHERE guild_id = ?";
     const params = [guildId];
 
     try {
         const result = await executeQuery(query, params);
         return result.reduce((acc, row) => {
-            acc[row.setting_name] = JSON.parse(row.setting_value);
+            // Store raw values, don't parse as JSON
+            acc[row.setting_name] = row.setting_value;
             return acc;
         }, {});
     } catch (error) {
         console.error("Error fetching settings:", error);
+        throw error;
     }
 };
 
@@ -70,6 +77,7 @@ const setGuildSetting = async (guildId, settingName, settingValue) => {
         await executeQuery(query, params);
     } catch (error) {
         console.error("Error setting guild setting:", error);
+        throw error;
     }
 };
 
@@ -83,7 +91,6 @@ const createBirthdayTable = async () => {
     `;
 
     await executeQuery(query);
-
     console.log("Birthday table verified.");
 };
 
@@ -99,6 +106,7 @@ const setBirthday = async (userId, birthday) => {
         await executeQuery(query, params);
     } catch (error) {
         console.error("Error setting birthday:", error);
+        throw error;
     }
 };
 
@@ -111,6 +119,7 @@ const getBirthday = async (userId) => {
         return result.length > 0 ? result[0] : null;
     } catch (error) {
         console.error("Error fetching birthday:", error);
+        throw error;
     }
 };
 
