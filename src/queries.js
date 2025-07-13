@@ -16,7 +16,6 @@ const createGuildSettingsTable = async () => {
 };
 
 const initializeGuildSettings = async (guildId) => {
-    // Initialize each setting individually, not as a JSON blob
     for (const [settingName, settingValue] of Object.entries(defaultSettings)) {
         const query = `
             INSERT IGNORE INTO guild_settings (guild_id, setting_name, setting_value)
