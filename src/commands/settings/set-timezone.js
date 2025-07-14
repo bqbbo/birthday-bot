@@ -13,8 +13,8 @@ export default {
                 .setRequired(true)
                 .addChoices(
                     ...Object.entries(timezones).map(([key, value]) => ({
-                        name: key,
-                        value: value,
+                        name: `${key} (${value})`,
+                        value: key,
                     }))
                 )
         )

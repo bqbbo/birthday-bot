@@ -21,4 +21,36 @@ const timezones = {
     "America/Mexico_City": "UTC-06:00",
 };
 
+const parseTimezoneOffset = (timezoneString) => {
+    if (!timezoneString) return 0;
+
+    const match = timezoneString.match(/UTC([+-])(\d{2}):(\d{2})/);
+    if (!match) return 0;
+
+    const sign = match[1] === "+" ? 1 : -1;
+    const hours = parseInt(match[2], 10);
+    const minutes = parseInt(match[3], 10);
+
+    return sign * (hours + minutes / 60);
+};
+
+const getCurrentTimeInTimezone = (timezoneOffset) => {
+    const now = new Date();
+
+    const localTime = new Date(now.getTime() + timezoneOffset * 60 * 60 * 1000);
+
+    return {
+        hours: localTime.getUTCHours().toString().padStart(2, "0"),
+        minutes: localTime.getUTCMinutes().toString().padStart(2, "0"),
+        time: `${localTime
+            .getUTCHours()
+            .toString()
+            .padStart(2, "0")}:${localTime
+            .getUTCMinutes()
+            .toString()
+            .padStart(2, "0")}`,
+    };
+};
+
+export { timezones, parseTimezoneOffset, getCurrentTimeInTimezone };
 export default timezones;
