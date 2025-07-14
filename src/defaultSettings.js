@@ -2,7 +2,7 @@
 // They can be configured via the /settings command. /settings reset and /settings resetall will utilize these values.
 
 const defaultSettings = {
-    channel: null,
+    channel_id: null,
     ping_role_id: null,
     birthday_message: "Happy birthday, {users}! 🎉",
     announcement_time: "09:00",

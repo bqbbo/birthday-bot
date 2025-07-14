@@ -2,9 +2,9 @@ import {
     setGuildSetting,
     getGuildSetting,
     getAllGuildSettings,
-} from "../queries.js";
-import { defaultSettings, validSettings } from "../defaultSettings.js";
-import { SlashCommandBuilder } from "discord.js";
+} from "../../queries.js";
+import { defaultSettings, validSettings } from "../../defaultSettings.js";
+import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 
 const handleError = async (interaction, action, error = null) => {
     console.error(`Error ${action}:`, error);
@@ -55,25 +55,6 @@ const commandHandlers = {
             await handleError(
                 interaction,
                 `reset setting ${settingName}`,
-                error
-            );
-        }
-    },
-
-    async set(interaction, guildId) {
-        const settingName = interaction.options.getString("setting_name");
-        const settingValue = interaction.options.getString("setting_value");
-
-        try {
-            await setGuildSetting(guildId, settingName, settingValue);
-            await handleSuccess(
-                interaction,
-                `Setting ${settingName} has been updated to ${settingValue}.`
-            );
-        } catch (error) {
-            await handleError(
-                interaction,
-                `update setting ${settingName}`,
                 error
             );
         }
@@ -177,36 +158,13 @@ export default {
                 .setName("resetall")
                 .setDescription("Reset all settings to their default values")
         )
-        .addSubcommand((subcommand) =>
-            subcommand
-                .setName("set")
-                .setDescription("Set a specific setting")
-                .addStringOption(
-                    createSettingOption(
-                        "setting_name",
-                        "The name of the setting to set"
-                    )
-                )
-                .addStringOption((option) =>
-                    option
-                        .setName("setting_value")
-                        .setDescription("The new value for the setting")
-                        .setRequired(true)
-                )
-        ),
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
         const guildId = interaction.guild.id;
 
         const handler = commandHandlers[subcommand];
-        if (handler) {
-            await handler(interaction, guildId);
-        } else {
-            await handleSuccess(
-                interaction,
-                "This command is not yet implemented."
-            );
-        }
+        await handler(interaction, guildId);
     },
 };
