@@ -19,6 +19,6 @@ loadEvents(client);
 
 setInterval(() => {
     checkBirthdays(client);
-}, 60 * 1000);
+}, 1000);
 
 client.login(token);

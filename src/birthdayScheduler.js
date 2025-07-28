@@ -6,6 +6,20 @@ import {
     getCurrentTimeInTimezone,
 } from "./timezones.js";
 
+const verifySecondSync = () => {
+    const currentTime = new Date();
+    const seconds = currentTime.getSeconds();
+
+    if (seconds !== 0) {
+        console.log(
+            `Current seconds ${seconds} does not match 0, skipping birthday check`
+        );
+        return false;
+    }
+
+    return true;
+};
+
 const calculateAge = (birthdayDate) => {
     const currentYear = new Date().getFullYear();
     const birthYear = birthdayDate.getFullYear();
@@ -170,6 +184,10 @@ const announceBirthdaysForGuild = async (client, guildId) => {
 };
 
 const checkBirthdays = async (client) => {
+    if (!verifySecondSync()) {
+        return;
+    }
+
     try {
         console.log("Running birthday check...");
         const guilds = client.guilds.cache.keys();
