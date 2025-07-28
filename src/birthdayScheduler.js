@@ -11,9 +11,6 @@ const verifySecondSync = () => {
     const seconds = currentTime.getSeconds();
 
     if (seconds !== 0) {
-        console.log(
-            `Current seconds ${seconds} does not match 0, skipping birthday check`
-        );
         return false;
     }
 
@@ -67,15 +64,8 @@ const announceBirthdaysForGuild = async (client, guildId) => {
         const currentTime = getCurrentTimeInTimezone(timezoneOffset);
 
         if (currentTime.time !== announcementTime) {
-            console.log(
-                `Current time ${currentTime.time} does not match announcement time ${announcementTime} for guild ${guildId}`
-            );
             return;
         }
-
-        console.log(
-            `Checking birthdays for guild ${guildId} at ${currentTime.time} (${timezoneKey})`
-        );
 
         const birthdays = await getTodaysBirthdays();
 
@@ -86,15 +76,14 @@ const announceBirthdaysForGuild = async (client, guildId) => {
 
         const guild = client.guilds.cache.get(guildId);
         if (!guild) {
-            console.log(`Guild ${guildId} not found in cache`);
+            console.log(
+                `Guild ${guildId} not found in cache. Restarting the bot may be necessary.`
+            );
             return;
         }
 
         const channel = guild.channels.cache.get(settings.channel_id);
         if (!channel) {
-            console.log(
-                `Channel ${settings.channel_id} not found in guild ${guild.name}`
-            );
             return;
         }
 
@@ -102,25 +91,12 @@ const announceBirthdaysForGuild = async (client, guildId) => {
         const guildMembers = guild.members.cache;
 
         const guildBirthdays = birthdays.filter((birthday) => {
-            const isMember = guildMembers.has(birthday.user_id);
-            if (isMember) {
-                console.log(
-                    `User ${birthday.user_id} is in guild ${guild.name} and has birthday today`
-                );
-            }
-            return isMember;
+            return guildMembers.has(birthday.user_id);
         });
 
         if (guildBirthdays.length === 0) {
-            console.log(
-                `No guild members with birthdays today in ${guild.name}`
-            );
             return;
         }
-
-        console.log(
-            `Found ${guildBirthdays.length} guild members with birthdays in ${guild.name}`
-        );
 
         const birthdayUsersWithAges = [];
         for (const birthday of guildBirthdays) {
@@ -134,12 +110,6 @@ const announceBirthdaysForGuild = async (client, guildId) => {
                         user,
                         age,
                     });
-
-                    console.log(
-                        `Successfully fetched user: ${user.username}${
-                            age ? ` (turning ${age})` : ""
-                        }`
-                    );
                 }
             } catch (error) {
                 console.error(
@@ -150,7 +120,6 @@ const announceBirthdaysForGuild = async (client, guildId) => {
         }
 
         if (birthdayUsersWithAges.length === 0) {
-            console.log("No valid birthday users found");
             return;
         }
 
@@ -172,9 +141,6 @@ const announceBirthdaysForGuild = async (client, guildId) => {
         }
 
         await channel.send(message);
-        console.log(
-            `Birthday announcement sent for guild ${guild.name} (${birthdayUsersWithAges.length} users) at ${currentTime.time} (${timezoneKey})`
-        );
     } catch (error) {
         console.error(
             `Error announcing birthdays for guild ${guildId}:`,
@@ -189,7 +155,6 @@ const checkBirthdays = async (client) => {
     }
 
     try {
-        console.log("Running birthday check...");
         const guilds = client.guilds.cache.keys();
 
         for (const guildId of guilds) {
