@@ -1,6 +1,6 @@
 # Birthday Bot
 
-A lightweight, configurable discord bot which automatically announces birthdays across multiple servers. It favors server administration AND user control!
+A lightweight, configurable Discord bot that automatically announces birthdays across multiple servers. It favors server administration AND user control!
 
 Birthday Bot is written in NodeJS using the extremely flexible bot creation framework, Discord.js.
 
@@ -8,7 +8,7 @@ Birthday Bot is written in NodeJS using the extremely flexible bot creation fram
 
 Automatically announcing birthdays can be difficult; remembering potentially hundreds of birthdays across multiple friend-managed servers and announcing them accordingly is not exactly easy.
 
-I had this same problem, asking users for birthdays, forgetting to announce them sometimes, not an ideal situation. The bot solves a variety of problems primarily in smaller servers where announcing a birthday is great for engagement.
+I had this same problem, asking users for birthdays, forgetting to announce them sometimes, not an ideal situation. The bot solves a variety of problems, primarily in smaller servers where announcing a birthday is great for engagement.
 
 This is my largest NodeJS project of roughly 25 hours over 3 days, and the first Discord bot I've made using Discord.js. This is also my first project ever utilizing an external database (MySQL in this project). My future projects will be written with TypeScript.
 
@@ -16,7 +16,7 @@ This is my largest NodeJS project of roughly 25 hours over 3 days, and the first
 
 I created Birthday Bot to solve the following problems:
 
--   Users enter their own birthdays instead of telling a staff member when it is. No more forgetting or awkward conversations.
+-   Users enter their birthdays instead of telling a staff member when it is. No more forgetting or awkward conversations.
 -   Server admins don't have to worry about being accused of biases; birthdays are announced at the same time every day, all at once, all with the same message and role ping.
 -   In a community across multiple servers, with potentially mixed users, you will no longer need to announce a user's birthday in each one yourself! They will be announced in all throughout the day.
 -   Timezones, and announcement times! A server admin can tailor the announcement time to when their community is most active.
@@ -27,13 +27,13 @@ Birthday bot comes with 12 commands that a developer can extend easily for addit
 
 #### Settings for Server Admins
 
--   **Announcement Time** (`announcement_time`) - The time the bot will announce a birthday, relative to the set timezone (format is 24 hour, `HH:MM`)
+-   **Announcement Time** (`announcement_time`) - The time the bot will announce a birthday, relative to the set timezone (format is 24-hour, `HH:MM`)
 -   **Timezone** (`timezone`) - The timezone the bot will use for time calculations
 -   **Announcement Message** (`birthday_message`) - A configurable message for birthday announcements (use `{users}` in your message for pings)
 -   **Pinging Role** (`ping_role_id`) - The role to ping with in birthday announcements (stored as a Discord role ID)
 -   **Announcement Channel** (`channel_id`) - The channel for birthday announcements (stored as a Discord channel ID)
 
-All settings are configurable from builtin admin commands, and users can use the bot to see other birthdays. Default settings for guilds newly adding the bot can be found in `/src/defaultSettings.js`.
+All settings are configurable from builtin admin commands, and users can use the bot to see other birthdays. The default settings for guilds newly adding the bot can be found in `/src/defaultSettings.js`.
 
 #### General Commands
 
@@ -43,12 +43,12 @@ All settings are configurable from builtin admin commands, and users can use the
 
 -   **`/echo [message]`** - Echos back user input
 -   **`/ping`** - Echos back the bot's latency
--   **`/server-count`** - Echos back the number of servers the bot is in
+-   **`/server-count`** - Echoes back the number of servers the bot is in
 
 #### Birthday-related Commands
 
 -   **`/set-birthday [month] [day] [year (opt)]`** - Sets the birthday linked to your user account
--   **`/get-birthday [user]`** - Echos back the birthday of a specified user, if they have set it
+-   **`/get-birthday [user]`** - Echoes back the birthday of a specified user, if they have set it
 
 #### Configuration Commands (for server admins)
 
@@ -68,25 +68,25 @@ For some configuration commands, specific formatting is required. See above for 
 
 ### User-Oriented, Server-Centric
 
-This bot is designed with **multiple** servers in mind. Server admins cannot adjust a user's birthday themselves, but are at full control for when and how a birthday is announced.
+This bot is designed with **multiple** servers in mind. Server admins cannot adjust a user's birthday themselves, but are in full control of when and how a birthday is announced.
 
-Each server with the bot will announce the birthday of any users that have their birthday on that day, allowing a user to be announced in multiple servers independently over the course of a 24 hour period.
+Each server with the bot will announce the birthday of any users who have their birthday on that day, allowing a user to be announced in multiple servers independently throughout 24 hours.
 
 ## Using the Bot
 
-Once done setting up the bot, everything is automatically handled. However, the more users that enter their birthday, the more engaging the bot will be.
+Once done setting up the bot, everything is automatically handled. However, the more users who enter their birthdays, the more engaging the bot will be.
 
-There are two options for setting up the bot, hosting it yourself, or using my direct clone.
+There are two options for setting up the bot: hosting it yourself or using my direct clone.
 
 ### Option 1 - Self-hosted (Recommended)
 
-Self hosting is recommended for stability, and a streamlined experience across multiple servers in a greater community. However, hosting does require some technical knowledge, a reliable server, and various tools.
+Self-hosting is recommended for stability and a streamlined experience across multiple servers within a larger community. However, hosting does require some technical knowledge, a reliable server, and various tools.
 
-1. **Install `node`, `npm`, `mysql`, and `git` on your server.** This process varies per platform but is easiest on Linux.
-2. **Create a Discord bot, and add it to a server.** The bot should receive all intents, and the bot scope. For simplicity, give it the Administrator permission. Do **not** enable user installs, only select guild.
+1. **Install `node`, `npm`, `mysql`, and `git` on your server.** This process varies per platform but is most efficient on Linux.
+2. **Create a Discord bot, and add it to a server.** The bot should receive all intents and the bot scope. For simplicity, give it the Administrator permission. Do **not** enable user installs, only select guild. **If your bot is added to 100+ servers, you must verify it with Discord or the bot will not work.**
 3. **Clone the repository.** Executing `git clone https://github.com/bqbbo/birthday-bot.git` will clone the repository into the `birthday-bot` directory.
 4. **Run `npm install`.** This will install all necessary packages. Contributors, please install ESLint manually here.
-5. **Configure MySQL.** You will need to set a password for the `root` account, and create a database for the bot. See [this page](https://dev.mysql.com/doc/refman/8.4/en/default-privileges.html) for setting a root MySQL password, and [this page](https://dev.mysql.com/doc/refman/8.4/en/creating-database.html) for creating a database. When hosting on Linux, it may be necessary to enable the MySQL service with your init system.
+5. **Configure MySQL.** You will need to set a password for the `root` account and create a database for the bot. See [this page](https://dev.mysql.com/doc/refman/8.4/en/default-privileges.html) for setting a root MySQL password, and [this page](https://dev.mysql.com/doc/refman/8.4/en/creating-database.html) for creating a database. When hosting on Linux, it may be necessary to enable the MySQL service with your init system.
 6. **Create `.env`.** Environment variables are needed to utilize the bot safely. See the [dotenv website](https://www.dotenv.org/docs/) for further explanation. Using the `export` command or equivalent on Mac/Windows is also sufficient.
 
 The bot requires the following environment variables to be set:
@@ -106,9 +106,9 @@ The bot requires the following environment variables to be set:
 -   **BIRTHDAY_BOT_DATABASE_USER** - If you are using another MySQL user other than `root`, set it here.
 -   **BIRTHDAY_BOT_DATABASE_CHARSET** If you are not using `utf8mb4`, set the charset here.
 
-For contributors, or developers creating forks, the defaults for database environment variables that are not set can be altered in `/src/db/getDBToken.js`.
+For contributors or developers creating forks, the defaults for database environment variables that are not set can be altered in `/src/db/getDBToken.js`.
 
-7. **Register your commands with Discord, `npm run register:global`.** Doing this is required if you are first starting your bot, or if you make any changes/additions to commands. It is recommended if you make any significant change to the source code. If you are registering commands for a specific guild, use `npm run register:guild`. It is **not** recommended to use both (see Known Issues).
+7. **Register your commands with Discord, `npm run register:global`.** Doing this is required if you are first starting your bot, or if you make any changes/additions to commands. It is also recommended anytime a significant change is made. If you are registering commands for a specific guild, use `npm run register:guild`. It is **not** recommended to use both (see Known Issues).
 8. **Start the bot! `npm start`.** If everything was done correctly, the bot should start up, appear online, and respond to commands.
 
 ### Option 2 - Use my implementation
@@ -119,8 +119,8 @@ My bot may go down at any point, and I cannot provide database data.
 
 ## Known Issues
 
--   **Timezones** - Due to Discord's command choice limit, not at 26 timezones can be listed. Only the most popular ones have been added to the default list, which can be changed in `/src/timezones.js`.
--   **DST** - The bot will not automatically update timezones that observe Daylight Savings Time, such as `America/Los_Angeles`.
+-   **Timezones** - Due to Discord's command choice limit, only 26 time zones can be listed. Only the most popular ones have been added to the default list, which can be changed in `/src/timezones.js`.
+-   **DST** - The bot will not automatically update timezones that observe Daylight Saving Time, such as `America/Los_Angeles`.
 -   **`{users}`** - If `{users}` is omitted from the announcement message, the bot will **not** announce what users have a birthday on that day.
 -   **Guild Configs** - If a bot is kicked from a server, the associated guild data is not automatically removed.
 -   **Duplicate Commands** - Using both `npm run register:global` and `npm run register:guild` will result in duplicate, indistinguishable commands.
