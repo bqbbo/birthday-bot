@@ -33,7 +33,7 @@ Birthday bot comes with 12 commands that a developer can extend easily for addit
 -   **Pinging Role** (`ping_role_id`) - The role to ping with in birthday announcements (stored as a Discord role ID)
 -   **Announcement Channel** (`channel_id`) - The channel for birthday announcements (stored as a Discord channel ID)
 
-All settings are configurable from builtin admin commands, and users can use the bot to see other birthdays.
+All settings are configurable from builtin admin commands, and users can use the bot to see other birthdays. Default settings for guilds newly adding the bot can be found in `/src/defaultSettings.js`.
 
 #### General Commands
 
@@ -105,6 +105,8 @@ The bot requires the following environment variables to be set:
 -   **BIRTHDAY_BOT_DATABASE_PORT** - If your MySQL server isn't on the default port (`3306`), set this to the correct one. If this server is external, that port will likely need to be forwarded before you can access it.
 -   **BIRTHDAY_BOT_DATABASE_USER** - If you are using another MySQL user other than `root`, set it here.
 -   **BIRTHDAY_BOT_DATABASE_CHARSET** If you are not using `utf8mb4`, set the charset here.
+
+For contributors, or developers creating forks, the defaults for database environment variables that are not set can be altered in `/src/db/getDBToken.js`.
 
 7. **Register your commands with Discord, `npm run register:global`.** Doing this is required if you are first starting your bot, or if you make any changes/additions to commands. It is recommended if you make any significant change to the source code. If you are registering commands for a specific guild, use `npm run register:guild`. It is **not** recommended to use both (see Known Issues).
 8. **Start the bot! `npm start`.** If everything was done correctly, the bot should start up, appear online, and respond to commands.
