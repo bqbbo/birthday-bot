@@ -93,18 +93,18 @@ The bot requires the following environment variables to be set:
 
 #### Required Environment Variables
 
--   **BIRTHDAY_BOT_TOKEN** - Your bot's token, available on the Discord developer portal
--   **BIRTHDAY_BOT_CLIENT_ID** - Your bot's user/client ID, available on the developer portal or Discord directly
--   **BIRTHDAY_BOT_DATABASE_NAME** - The name of the database in the associated MySQL server.
--   **BIRTHDAY_BOT_DATABASE_PASSWORD** - The password of the associated MySQL server.
+-   **`BIRTHDAY_BOT_TOKEN`** - Your bot's token, available on the Discord developer portal
+-   **`BIRTHDAY_BOT_CLIENT_ID`** - Your bot's user/client ID, available on the developer portal or Discord directly
+-   **`BIRTHDAY_BOT_DATABASE_NAME`** - The name of the database in the associated MySQL server.
+-   **`BIRTHDAY_BOT_DATABASE_PASSWORD`** - The password of the associated MySQL server.
 
 #### Optional, Case-Specific Environment Variables
 
--   **BIRTHDAY_BOT_GUILD_ID** - If registering commands using `npm run register:guild`, you will need the guild ID.
--   **BIRTHDAY_BOT_DATABASE_HOST** - If your MySQL server isn't `127.0.0.1`, this must be set to the address of your database. You will need to port forward `3306` or another port (see below) to access your server externally, and your MySQL config will need to allow external inbound connections. Do **not** set this to `localhost`.
--   **BIRTHDAY_BOT_DATABASE_PORT** - If your MySQL server isn't on the default port (`3306`), set this to the correct one. If this server is external, that port will likely need to be forwarded before you can access it.
--   **BIRTHDAY_BOT_DATABASE_USER** - If you are using another MySQL user other than `root`, set it here.
--   **BIRTHDAY_BOT_DATABASE_CHARSET** If you are not using `utf8mb4`, set the charset here.
+-   **`BIRTHDAY_BOT_GUILD_ID`** - If registering commands using `npm run register:guild`, you will need the guild ID.
+-   **`BIRTHDAY_BOT_DATABASE_HOST`** - If your MySQL server isn't `127.0.0.1`, this must be set to the address of your database. You will need to port forward `3306` or another port (see below) to access your server externally, and your MySQL config will need to allow external inbound connections. Do **not** set this to `localhost`.
+-   **`BIRTHDAY_BOT_DATABASE_PORT`** - If your MySQL server isn't on the default port (`3306`), set this to the correct one. If this server is external, that port will likely need to be forwarded before you can access it.
+-   **`BIRTHDAY_BOT_DATABASE_USER`** - If you are using another MySQL user other than `root`, set it here.
+-   **`BIRTHDAY_BOT_DATABASE_CHARSET`** If you are not using `utf8mb4`, set the charset here.
 
 For contributors or developers creating forks, the defaults for database environment variables that are not set can be altered in `/src/db/getDBToken.js`.
 
